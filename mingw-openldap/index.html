@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/base/base-min.css" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="en-us">
+    <meta name="description" Content="">
+    <meta name="keywords" content="">
+    <style type="text/css">
+        code {
+            background-color: #eee;
+            display: block;
+            margin: .5em 0;
+            padding: 2px;
+        }
+        #ft {
+            border-top: 2px solid #ddd;
+            padding: 0 0 1em 0;
+        }
+        li {
+            margin-bottom: .25em;
+        }
+        .yui-b ul li {
+            list-style: none;
+            margin: .5em 0;
+        }
+    </style>
+    <title>MinGW, OpenSSL and OpenLDAP</title>
+</head>
+<body>
+<div id="doc3" class="yui-t1">
+    <div id="hd"><h1>MinGW, OpenSSL and OpenLDAP</h1></div>
+        <div id="bd">
+            <div id="yui-main">
+                <div class="yui-b"><div class="yui-g">
+                    <p>This document seeks to guide the reader through the steps involved in building <a href="http://openssl.org">OpenSSL</a> and <a href="http://www.openldap.org">OpenLDAP</a> (with SSL/TLS support) on Windows using the <a href="http://www.mingw.org/">MinGW</a> toolset (and <a href="http://www.mingw.org/msys.shtml">MSYS</a>). It is aimed primarily at an audience wishing to compile LDAP client libraries for high-level languages such as <a href="http://python.org">Python</a> or <a href="http://www.ruby-lang.org">Ruby</a>.</p> Therefore, instructions are included for the appropriate modules in both of these languages (<a href="http://python-ldap.sourceforge.net/">python-ldap</a> and <a href="http://ruby-ldap.sourceforge.net/">Ruby/LDAP</a>, respectively).
+                    <a name="requirements"></a>
+                    <h2>Software requirements/versions</h2>
+                    <p>I used the following versions of various software packages. Other versions will likely work fine, but have not been tested.</p>
+                    <ul>
+                        <li>MinGW 5.1.3 (with gcc 3.4.5)</li>
+                        <li>MSYS 1.0.11 (Technology Preview)</li>
+                        <li>libiconv 1.11 (<a href="http://www.mingw.org/MinGWiki/index.php/mingwPORT">mingwPORT</a>)</li>
+                        <li>mingw-regex-2.5.1</li>
+                        <li>zlib 1.2.3 (<a href="http://www.mingw.org/MinGWiki/index.php/mingwPORT">mingwPORT</a>)</li>
+                        <li><a href="http://strawberryperl.com/">Strawberry Perl</a> 5.10.0 (or perl-5.6.1-MSYS-1.0.11-1.tar.bz2 from <a href="http://sourceforge.net/project/showfiles.php?group_id=2435&package_id=67879">MSYS Supplementary Tools</a>).</li>
+                        <li><a href="http://www.cygwin.com/">Cygwin</a>'s cygpath utility. (<a href="http://files.bowmansolutions.com/install-cygpath.exe">Standalone package available.</a>)</li>
+                        <li>OpenSSL 0.9.8g</li>
+                        <li>OpenLDAP 2.4.7</li>
+                        <li>soelim.exe from the <a href="http://gnuwin32.sourceforge.net/">GnuWin32</a> <a href="http://gnuwin32.sourceforge.net/packages/groff.htm">groff</a>-1.19.2 package</li>
+                        <li>Python 2.5.1</li>
+                        <li>Ruby 1.8.6-p111</li>
+                        <li><a href="http://rubygems.org/">RubyGems</a> 1.0.1 (optional)</li>
+                    </ul>
+                    <a name="mingw"></a>
+                    <h2>MinGW and MSYS</h2>
+                    <p>The &#8220;natural habitat&#8221; of OpenSSL and OpenLDAP is the landscape of Unix-like <a href="http://www.opengroup.org/austin/papers/posix_faq.html">POSIX</a>-compliant operating systems (Linux, Mac OS X, *BSD, and so on). However, circumstances place many users in front of Windows machines, while still desiring software tailor-made for a POSIX environment. <a href="http://www.mingw.org/">MinGW</a> (Minimalist GNU for Windows) is one response to this dilemma. It allows compiling of a large quantity of <a href="http://www.gnu.org/">GNU</a> (freely available) software so that it runs natively on Windows. The resulting executables or DLLs are redistributable, needing no extra libraries in order to run. (<a href="http://www.cygwin.com/">Cygwin</a>, an alternative, needs its own library for its binaries to work.)</p>
+                    <p><a href="http://www.mingw.org/msys.shtml">MSYS</a> (Minimal SYStem) is a build environment for MinGW, offering POSIX-similar behavior so that automatic configuration scripts and build tools run as intended.</p>
+                    <h3>Installation</h3>
+                    <p>MinGW installation is fairly straight-forward, if you download the automated installer. I use the default path, &#8220;C:\MinGW&#8221; for my installation.</p>
+                    <p>For MSYS, start by downloading the exe file (1.0.10 at the time of this writing). I then downloaded most of the packages in the Technology Preview category, which may be unnecessary. Unfortunately, each of them needs to be installed separately. If you do not have <a href="http://gnuwin32.sourceforge.net/packages/gtar.htm">the tar utility</a> and <a href="http://gnuwin32.sourceforge.net/packages/bzip2.htm">its</a> <a href="http://gnuwin32.sourceforge.net/packages/gzip.htm">friends</a> (or if you prefer a graphical interface), free compression utilities like <a href="http://www.tugzip.com/">TUGZip</a> or <a href="http://www.7-zip.org/">7-zip</a> work very well.</p>
+                    <p><strong>A better alternative:</strong> (Thanks to <a href="http://www.osuch.org/python-ldap">Waldemar Osuch</a> for this advice!) Simply download and install msysCORE-1.0.11-2007.01.19-1.tar.bz2, then run "msys/postinstall/pi.bat".</p>
+                    <p>Once MSYS is installed and optionally upgraded, a couple other packages are needed: libiconv, zlib, and GNU regex. The first two are available as <a href="http://www.mingw.org/MinGWiki/index.php/mingwPORT">mingwPORT</a>s, and that is how I installed them. Just follow the directions, and things should work fine. There is a user contributed port of GNU regex to MinGW available from the MinGW downloads. I used it, and it worked well.</p>
+                    <a name="openssl"></a>
+                    <h2>OpenSSL</h2>
+                    <p>If you have no need of security, OpenLDAP will work fine without OpenSSL. However, most prefer encryption when authenticating remotely. SSL/TLS in OpenLDAP depend on OpenSSL.</p>
+                    <h3>Installation</h3>
+                    <ol>
+                        <li>The configuration script wants to use Perl. There is a good MSYS-tailored version available from <a href="http://sourceforge.net/project/showfiles.php?group_id=2435&package_id=67879">MSYS Supplementary Tools</a>. On windows, <a href="http://strawberryperl.com/">Strawberry Perl</a> is also a good option. Install it before proceeding. If you already have Perl installed, just be sure it is in your PATH.</li>
+                        <li>Extract the OpenSSL package to a location of your choosing. If you have Cygwin installed you can typethe following at the Cygwin prompt: <code>tar zxf openssl-0.9.8g.tar.gz</code> If you do not, TUGZip and 7-zip should extract the files without a problem. MinGW's tar has trouble with symlinks.</li>
+                        <li>OpenLDAP appears to want the OpenSSL libraries built &#8220;shared.&#8221; In order to do this, however, the &#8220;Configure&#8221; script needs to be edited as follows (many thanks to <a href="http://www.wagner.pp.ru/~vitus/articles/openssl-mingw.html">Victor Wagner</a> for this hint):
+                        <ul>
+                            <li>Find the line that begins <code>&quot;mingw&quot;</code> Conveniently, the previous line reads <code># MinGW</code></li>
+                            <li>Look at the end of the line where the code reads:
+                            <code>-DOPENSSL_USE_APPLINK:-mno-cygwin -shared:.dll.a</code></li>
+                            <li>And change it to read:
+                            <code>-DOPENSSL_USE_APPLINK:-mno-cygwin -Wl,--export-all -shared:.dll.a</code></li>
+                        </ul>
+                        </li>
+                        <li>Now launch MSYS, cd to the openssl directory, and type:
+                        <code>./config --prefix=/mingw --openssldir=/mingw/openssl shared</code>
+                        (I do not think the openssldir is all that important, for our purposes anyway. The prefix, however, is.)</li>
+                        <li>When this is finished, type <code>make</code></li>
+                        <li>Then <code>make install</code></li>
+                        <li>Copy the appropriate libraries to where the compiler can see them:
+                        <code>cp *.a /mingw/lib</code>
+                        <li>And the same for the DLLs:
+                        <code>cp *.dll /mingw/bin</code>
+                    </ol>
+                    <a name="openldap"></a>
+                    <h2>OpenLDAP</h2>
+                    <p>This is what we came here to do. Again, I am only interested in the client libraries, so I do not intend to compile slapd, slurpd, etc. The same procedures may work with some modifications, but I have not tested it.</p>
+                    <h3>Installation</h3>
+                    <ol>
+                        <li>OpenLDAP wants a couple utilities available before compiling and installation will proceed smoothly:
+                        <ul>
+                            <li>It uses cygpath.exe to check actual pathnames, and this can be downloaded from <a href="http://www.cygwin.com/">Cygwin</a>. If you don't want all of Cygwin, I put together a <a href="http://files.bowmansolutions.com/install-cygpath.exe">self-extracting archive</a> of the two files needed. Just extract them in your PATH.</li>
+                            <li>For documentation (which we don't need, ironically), it uses soelim.exe, which I downloaded from the <a href="http://gnuwin32.sourceforge.net/">GnuWin32</a> <a href="http://gnuwin32.sourceforge.net/packages/groff.htm">groff</a> package. Place it in your PATH (C:\MinGW\bin is as good a place as any).</li>
+                        </ul>
+                        </li>
+                        <li>Now you can configure OpenLDAP. Again, I have disabled things that I do not need. I have also designated the configuration directory to be the root of the C: drive. This will result in the creation of C:\openldap\ldap.conf when you run &#8220;make install.&#8221; Sorry that it is hard-coded. I do not know of another way. Anyone you give your DLLs to will need to have this directory at the same location if they want to configure OpenLDAP (with certs, and so on). (Note: the following should be all one line.)
+                        <code>./configure --with-ssl --with-tls --disable-slapd --disable-backends --disable-slurpd --prefix=/mingw --sysconfdir=/c</code></li>
+                        <li>If it configured correctly, you should be able to enter (each will take some time):
+                        <code>
+                            make depend<br>
+                            make<br>
+                            make install
+                        </code></li>
+                        <li>Copy the following DLLs into your PATH. They should be in your normal PATH, not /mingw/bin (where they likely already are), unless this is normally in your PATH. These are the DLLs that will need to be distributed with any software package you give to others.
+                        <ul>
+                            <li>cryptoeay32-0.9.8.dll</li>
+                            <li>ssleay32-0.9.8.dll</li>
+                            <li>liblber.dll<li>
+                            <li>libldap.dll</li>
+                            <li>libldap_r.dll</li>
+                        </ul>
+                        </li>
+                        <li>Check that you have a directory C:\openldap, and that it has ldap.conf in it. If you know what you are doing with certs, etc., go ahead and configure it how you want. I go for a simple, albeit insecure, configuration by adding the following line to ldap.conf. Otherwise, my LDAP clients are unable to connect successfully using SSL or TLS.
+                        <code>TLS_REQCERT   never</code>
+                    </ol>
+                    <a name="python"></a>
+                    <h2>Python-ldap</h2>
+                    <h3>Installation</h3>
+                    Compiling the python-ldap module is fairly simple. Again, once complete, you will still need the previously-compiled DLLs somewhere in your PATH.
+                    <ol>
+                        <li>Unpack the python-ldap source.</li>
+                        <li>Launch MSYS and cd to the python-ldap source.</li>
+                        <li>Edit config.cfg. Mine (<a href="setup.cfg">download</a> it, if you want) looks like this:
+                        <code>
+                            [_ldap]<br>
+                            class = OpenLDAP2<br>
+                            defines = WIN32<br>
+    <br>
+                            library_dirs = /mingw/lib<br>
+                            include_dirs = /mingw/include<br>
+    <br>
+                            libs = ldap_r lber ssl crypto ws2_32 gdi32<br>
+    <br>
+                            # Installation options<br>
+                            [install]<br>
+                            compile = 1<br>
+                            optimize = 1<br>
+    <br>
+                            [bdist_wininst]<br>
+                            target_version = 2.5
+                        </code></li>
+                        <li>Build it (using the path to your Python; mine is in C:\Python25):
+                        <code>/c/python25/python setup.py build --compiler=mingw32</code></li>
+                        <li>Build the Windows installer
+                        <code>/c/python25/python setup.py bdist_wininst</code>
+                        <li>In dist, you should see &#8220;python-ldap-2.3.1.win32-py2.5.exe&#8221;</li>
+                    </ol>
+                    <p><strong>Note:</strong> <a href="http://www.osuch.org/python-ldap">Waldemar Osuch</a> has some helpful advice:</p> 
+                    <blockquote>
+When building the python extension I have temporarily tweaked
+ Mingw32CCompiler from distutils/cygwincompiler.py to force
+ static linking.  No need for *.dll distribution.
+ <code>
+     294       # ld_version >= "2.13" support -shared so use it instead of<br>
+295       # -mdll -static<br>
+296       if self.ld_version >= "2.13":<br>
+297           shared_option = "-shared"<br>
+298       else:<br>
+299           shared_option = "-mdll -static"<br>
+300        #TODO Uncomment for python-ldap<br>
+301        #shared_option = "-mdll -static"<br>
+</code>
+</blockquote>
+                    <a name="ruby"></a>
+                    <h2>Ruby/LDAP</h2>
+                    <p>Now that you have come this far, I should point out that Ruby/LDAP builds fine using Microsoft Visual C++ 2003, and uses Microsoft's very own wldap32.dll. If you are interfacing with Active Directory, I would stick with the Microsoft option. However, if you are working with another solution, such as eDirectory or an OpenLDAP server, you may have security problems when wldap32.dll doesn't find exactly what it wants in terms of certificates, etc. Or, as in our situation, you may be developing Ruby on Rails apps locally, and want to be sure that your development environment uses similar libraries to the ones on your Linux or *BSD web server (which most likely uses OpenLDAP). Compiling Ruby/LDAP against OpenLDAP may be a good option.</p>
+                    <h3>Installation</h3>
+                    <ol>
+                        <li>This is a little more complicated than Python's procedure. First, we need to compile Ruby using MinGW/MSYS. Download the source, unpack it, launch MSYS and cd to the source directory.</li>
+                        <li>Configure it:
+                        <code>./configure --prefix=/mingw --with-winsock2</code></li>
+                        <li>Then run the following, in order:
+                        <code>
+                            make<br>
+                            make install<br>
+                        </code></li>
+                        <li>Now, unpack the ruby-ldap source</li>
+                        <li>cd into it, then run
+                        <code>ruby extconf.rb</code></li>
+                        <li>If no errors you should be able to
+                        <code>make</code></li>
+                        <li>You can now copy ldap.so and lib/ldap/ to C:\ruby\lib\ruby\site_ruby\1.8\i386-msvcrt</li>
+                        <li>Or...</li>
+                    </ol>
+                    <h3>Building the gem</h3>
+                    <ol>
+                        <li>Copy ldap.so into the lib directory
+                        <code>cp ldap.so lib</code></li>
+                        <li>Create an ldap.gemspec file in the root of the source tree. I use the following (or you can <a href="ldap.gemspec">download</a> it):
+                        <code>Gem::Specification.new do |spec|<br>
+                              &nbsp;&nbsp;spec.authors = ['Takaaki Tateishi', 'Ian Macdonald']<br>
+                              &nbsp;&nbsp;spec.email = 'ian@caliban.org'<br>
+                              &nbsp;&nbsp;spec.has_rdoc = true<br>
+                              &nbsp;&nbsp;spec.homepage = 'http://ruby-ldap.sourceforge.net/'<br>
+                              &nbsp;&nbsp;spec.name = 'ldap'<br>
+                              &nbsp;&nbsp;spec.summary = 'LDAP library for Ruby'<br>
+                              &nbsp;&nbsp;spec.description = &lt;&lt;-EOF<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;ldap is a Ruby library to perform queries on an LDAP server<br>
+                              &nbsp;&nbsp;EOF<br>
+                              &nbsp;&nbsp;spec.version = '0.9.7'<br>
+                              &nbsp;&nbsp;spec.platform = Gem::Platform::CURRENT<br>
+                              &nbsp;&nbsp;spec.files = Dir['lib/**/*.rb'] + Dir['lib/*.so']<br>
+                              &nbsp;&nbsp;spec.required_ruby_version = '&gt;= 1.8.0'<br>
+                              &nbsp;&nbsp;spec.require_paths = ['lib']<br>
+                        end</code></li>
+                        <li>Enter
+                        <code>gem build ldap.gemspec</code></li>
+                        <li>Take the gem anywhere, and install it with:
+                        <code>gem install gem install ldap-0.9.7-x86-mswin32.gem</code></li>
+                        <li>If you have the OpenLDAP/OpenSSL DLLs and ldap.conf installed properly, things should work for you.</li>
+                    </ol>
+            </div></div>
+        </div>
+        <div class="yui-b">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#mingw">MinGW/MSYS</a></li>
+                <li><a href="#openssl">OpenSSL</a></li>
+                <li><a href="#openldap">OpenLDAP</a></li>
+                <li><a href="#python">Python module</a></li>
+                <li><a href="#ruby">Ruby module</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="ft">
+        Written by Jonathan Bowman, April 22, 2008.
+    </div>
+</div>
+</body>
+</html>
