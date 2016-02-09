@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on Bowman Solutions</title>
+    <link>http://localhost:1313/software/</link>
+    <description>Recent content in Software on Bowman Solutions</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2015 Jonathan Bowman. All documentation or code contained on this site may be freely shared in compliance with [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0), and is **provided &#34;AS IS&#34; without warranties or conditions of any kind**.</copyright>
+    <lastBuildDate>Sat, 05 Dec 2015 10:22:18 -0500</lastBuildDate>
+    <atom:link href="http://localhost:1313/software/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>geeseflypy</title>
+      <link>http://localhost:1313/software/geeseflypy/</link>
+      <pubDate>Sat, 05 Dec 2015 10:22:18 -0500</pubDate>
+      
+      <guid>http://localhost:1313/software/geeseflypy/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

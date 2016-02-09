@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build a static website using Hugo, a generator written in Go (golang), and build a theme from scratch.">
+  <meta name="author" content="Jonathan Bowman">
+  <meta name="generator" content="Hugo 0.15-DEV">
+  <link rel="stylesheet" href="http://localhost:1313/assets/main.css">
+  <title>Building a static website from scratch (unthemed) with Hugo</title>
+</head>
+<body>
+<div class="wrapper">
+<div class="content">
+
+
+<section id="main">
+    <header class="post-header">
+      <p class="post-title"><a href="http://localhost:1313/web-development/hugo1/">Building a static website from scratch (unthemed) with Hugo </a></p>
+      <p class="post-meta">Oct 24 2015 - 8 min </p>
+    </header>
+    <article itemprop="articleBody" id="content">
+       
+
+<p>This article shares the experience of creating a new website, with the following goals:</p>
+
+<ul>
+<li>Use the <a href="http://gohugo.io">Hugo</a> static website generator</li>
+<li>Use custom styling (do not re-use an existing Hugo theme)</li>
+</ul>
+
+<h2 id="step-1-install-hugo:2bcf957f474d110ed2b81035ac8c13d1">Step 1: install Hugo</h2>
+
+<p>Install Hugo by going to <a href="http://gohugo.io">the website</a>, downloading and installing it according to your platform.</p>
+
+<h2 id="step-2-initialization:2bcf957f474d110ed2b81035ac8c13d1">Step 2: initialization</h2>
+
+<p>As an example, the rest of these instructions will assume we are constructing a site featuring commentary on various programming languages. The site&rsquo;s name will be &ldquo;Polyglot.&rdquo;</p>
+
+<p>You will find this much more interesting if you work on your own ideas, so please make the appropriate substitutions of title, settings, and content. Of course, you, too, may have a burning desire to write about programming languages! Feel free to imitate and/or adapt.</p>
+
+<p>So, let&rsquo;s get started. From the command line:</p>
+<div class="highlight"><pre>hugo new site polyglot
+</pre></div>
+
+<p>Now enter the <code>polyglot</code> directory and edit the <code>config.toml</code> configuration file.</p>
+<div class="highlight"><pre><code class="language-toml" data-lang="toml"><span class="n">baseurl</span> <span class="o">=</span> <span class="s">&quot;http://bowmansolutions.github.io/polyglot/&quot;</span>
+<span class="n">languageCode</span> <span class="o">=</span> <span class="s">&quot;en-us&quot;</span>
+<span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Polyglot&quot;</span>
+<span class="n">pluralizeListTitles</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre></div>
+
+<p>I use <code>pluralizeListTitles = false</code> because otherwise Hugo tries to be too helpful, pluralizing section titles, for instance.</p>
+
+<p>We need at least <em>some</em> content, so let&rsquo;s create a home page. Here is mine:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>{{ .Site.Title }}<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Welcome to {{ .Site.Title }}<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+
+<p>Note that we used a Hugo variable (<code>.Site.Title</code> in this case, which is set in the <code>config.toml</code> file). You may <a href="https://gohugo.io/templates/variables/">read about other variables</a> in the Hugo documentation.</p>
+
+<h2 id="step-3-start-local-development-server:2bcf957f474d110ed2b81035ac8c13d1">Step 3: start local development server</h2>
+
+<p>Let&rsquo;s see if the site works. From the command-line:</p>
+<div class="highlight"><pre>hugo server --watch
+</pre></div>
+
+<p>Hugo should respond with a URL, something like <code>http://localhost/polyglot:1313</code>. Using your browser of choice, simply navigate to whatever URL it tells you. Hopefully, you have successfully launched a working Hugo-generated site!</p>
+
+<p>Impressive.</p>
+
+<p>Note that, when <code>hugo server</code> is launched with the flag <code>--watch</code>, any changes you make to relevant files will re-generate the site, and refresh your browser. Convenient.</p>
+
+<h2 id="step-4-versioning-and-deployment:2bcf957f474d110ed2b81035ac8c13d1">Step 4: versioning and deployment</h2>
+
+<p>You likely have a deployment strategy in mind, and you can deploy at any time. Skip this step if you are not ready.  Now is a great time to commit your work to version control, though, and your deployment and version control may be connected, if they are like mine.</p>
+
+<p>So, if appropriate, commit to version control now (using <a href="https://git-scm.com/">Git</a>, <a href="https://subversion.apache.org/">Subversion</a>, <a href="https://www.mercurial-scm.org/">Mercurial</a>, <a href="http://bazaar.canonical.com">Bazaar</a>, or similar tool).</p>
+
+<p>I use Git, in this case hosted by <a href="https://github.com/">Github</a>, and also plan to use <a href="https://pages.github.com/">Github pages</a> to host the website. If you, too, plan to host your Hugo site using Github pages, you may want to take a look at <a href="https://help.github.com/articles/creating-project-pages-manually/">Github&rsquo;s instructions</a> or <a href="https://gohugo.io/tutorials/github-pages-blog/">Hugo&rsquo;s instructions</a> for further guidance.</p>
+
+<h2 id="step-5-organize:2bcf957f474d110ed2b81035ac8c13d1">Step 5: organize</h2>
+
+<p>Feel free to skip this step and generate some content first (go to step 6).</p>
+
+<p>Hugo organizes your content according to sections, as determined by your directory structure. You can <a href="https://gohugo.io/content/organization/">read more about this in the Hugo docs</a>.</p>
+
+<p>Because my project is about computer programming languages, I am going to organize my posts into three sections, based on a highly technical categorization scheme:</p>
+
+<ul>
+<li>Programming languages I like</li>
+<li>Programming languages I avoid</li>
+<li>Programming languages I am curious about</li>
+</ul>
+
+<p>So, I can create these directories in the <code>content</code> directory:</p>
+<div class="highlight"><pre>cd content
+mkdir like avoid curious
+cd ..
+</pre></div>
+
+<p>Note that I could have waited and let Hugo create these directories when I create the individual pages. Just trying to plan ahead.</p>
+
+<h2 id="step-6-add-some-content:2bcf957f474d110ed2b81035ac8c13d1">Step 6: add some content</h2>
+
+<p>Now is a good time to create a few posts, so that when we work on our layout, we can actually view how the layout affects the content. I create content using <a href="https://daringfireball.net/projects/markdown/">Markdown</a>, the default for Hugo, using the <code>hugo new</code> command:</p>
+<div class="highlight"><pre>hugo new like/python.md
+hugo new like/go.md
+hugo new like/lua.md
+hugo new avoid/visualbasic.md
+hugo new avoid/cobol.md
+hugo new curious/rust.md
+hugo new curious/elm.md
+</pre></div>
+
+<p>Now I&rsquo;ll edit each one, adding content. I will spare you the details, but as examples, here are the entries for lua and rust:</p>
+<div class="highlight"><pre><code class="language-markdown" data-lang="markdown">+++
+tags = [ &quot;fast&quot;, &quot;embeddable&quot;, &quot;interpreted&quot;, &quot;procedural&quot; ]
+categories = [ &quot;Applications&quot; ]
+date = &quot;2015-11-09T09:40:47-05:00&quot;
+description = &quot;Lua, a small, fast scripting language&quot;
+draft = true
+title = &quot;Lua&quot;
++++
+
+From [the Lua &quot;about&quot; page](http://www.lua.org/about.html):
+
+<span class="k">&gt; </span>Lua is a powerful, fast, lightweight, embeddable scripting language.
+<span class="k">&gt;</span>
+<span class="k">&gt; </span>Lua combines simple procedural syntax with powerful data description
+<span class="k">&gt; </span>constructs based on associative arrays and extensible semantics. Lua is
+<span class="k">&gt; </span>dynamically typed, runs by interpreting bytecode for a register-based virtual
+<span class="k">&gt; </span>machine, and has automatic memory management with incremental garbage
+<span class="k">&gt; </span>collection, making it ideal for configuration, scripting, and rapid
+<span class="k">&gt; </span>prototyping. 
+</code></pre></div>
+
+<p><br></p>
+<div class="highlight"><pre><code class="language-markdown" data-lang="markdown">+++
+tags = [ &quot;fast&quot;, &quot;managed&quot;, &quot;compiled&quot;, &quot;thread-safe&quot; ]
+categories = [ &quot;Systems&quot; ]
+date = &quot;2015-11-09T09:40:47-05:00&quot;
+description = &quot;Rust, a low-level compiled systems programming language aiming to be fast and safe&quot;
+draft = true
+title = &quot;Rust&quot;
++++
+
+From [the Rust book](https://doc.rust-lang.org/stable/book/):
+
+<span class="k">&gt; </span>Rust is a systems programming language focused on three goals: safety, speed,
+<span class="k">&gt; </span>and concurrency. It maintains these goals without having a garbage collector,
+<span class="k">&gt; </span>making it a useful language for a number of use cases other languages aren’t
+<span class="k">&gt; </span>good at: embedding in other languages, programs with specific space and time
+<span class="k">&gt; </span>requirements, and writing low-level code, like device drivers and operating
+<span class="k">&gt; </span>systems. It improves on current languages targeting this space by having a
+<span class="k">&gt; </span>number of compile-time safety checks that produce no runtime overhead, while
+<span class="k">&gt; </span>eliminating all data races. Rust also aims to achieve &#39;zero-cost abstractions&#39;
+<span class="k">&gt; </span>even though some of these abstractions feel like those of a high-level
+<span class="k">&gt; </span>language. Even then, Rust still allows precise control like a low-level
+<span class="k">&gt; </span>language would.
+</code></pre></div>
+
+<h2 id="step-7-layout:2bcf957f474d110ed2b81035ac8c13d1">Step 7: layout</h2>
+
+<p>If your site is like mine, it looks quite boring now. At this point, we can <a href="https://gohugo.io/themes/installing">install a theme</a> that someone else has made. There are many good ones over at the <a href="https://themes.gohugo.io/">Hugo themes site</a>. If that is the route you choose now, I suggest you delete <code>layouts/index.html</code>, install a theme of your choosing, and have fun.</p>
+
+<p>If you want to work on your own layout, however, then read on.</p>
+
+<p>For now, I do not plan to create a reusable theme, so I will not use a <code>themes</code> directory. Instead, the layout will exist in <code>layouts</code>, and style sheets in <code>static</code>. If you prefer to start with a new theme in the <code>themes</code> directory, take a look at <a href="http://gohugo.io/themes/creation/">the theme docs</a>.</p>
+
+<p>We have already begun the layout with <code>layouts/index.html</code>. This file is not absolutely necessary, unless, like me, you want a landing page.</p>
+
+<p>Two files that <em>are</em> necessary for most any site, especially blogs, are <code>layouts/_default/single.html</code> for displaying a single entry, and <code>layouts/_default/list.html</code> for listing entries. You can create those files now.</p>
+
+<p>To reduce redundant HTML in these three templates, let&rsquo;s make some partials for the header and footer material. These can then be shared across the templates. Partials live in the <code>layouts/partials</code> directory.</p>
+
+<p>Here is my <code>layouts/partials/header.html</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;generator&quot;</span> <span class="na">content=</span><span class="s">&quot;Hugo {{ .Hugo.Version }}&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>{{ .Site.Title }}: {{ title .Title }}<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;{{ .Site.BaseURL }}assets/main.css&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>{{ title .Title }}<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div>
+
+<p>Note that I threw a CSS style sheet link in there, which corresponds to a file in <code>static/assets/main.css</code>. Put whatever styles you want in your file; I am going to continue with my ugly/boring motif.</p>
+
+<p>Also note the use of the <code>title</code> template function at several points. This simply renders a string in &ldquo;titlecase&rdquo; (capitalizing first letters). There are <a href="https://gohugo.io/templates/functions/">many more Hugo template functions</a> available.</p>
+
+<p>And here is <code>layouts/partials/footer.html</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;hr&gt;</span>
+Built {{ .Now.Format &quot;Monday, January 2, 2006 at 3:04 pm&quot; }}.
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+
+<p>Side note: when writing a format string in Go, the reference time is <code>Mon Jan 2 15:04:05 MST 2006</code> (aka <code>01/02 03:04:05PM '06 -0700</code>. Now isn&rsquo;t that clever?) Format that time however you want in your format string. See the <a href="https://golang.org/pkg/time/">Go programming documentation for <code>time</code></a> for more information.</p>
+
+<p>With the <code>header.html</code> and <code>footer.html</code> partials, <code>layouts/_default/single.html</code> might look like this:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{ partial &quot;header.html&quot; . }}
+{{ .Content }}
+{{ partial &quot;footer.html&quot; . }}
+</code></pre></div>
+
+<p>Fairly simple. Each page has a <code>.Content</code> variable that contains the parsed content of that page. In this case, the markdown text is converted to HTML.</p>
+
+<p>Just a reminder: <a href="http://gohugo.io/templates/variables/">read the variable reference</a> to see what all is available. Experiment.</p>
+
+<p>Now let&rsquo;s get a tad more complex with <code>layouts/_default/list.html</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{ partial &quot;header.html&quot; . }}
+<span class="nt">&lt;ul&gt;</span>
+  {{ range .Data.Pages }}
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;{{ .Permalink }}&quot;</span><span class="nt">&gt;</span>{{ title .Title }}<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  {{ end }}
+<span class="nt">&lt;/ul&gt;</span>
+{{ partial &quot;footer.html&quot; . }}
+</code></pre></div>
+
+<p>This uses the <code>range</code> function to iterate over the pages relevant to this list, extracting the link and title of each page. Within the <code>range</code> loop, the context is represented by <code>.</code> so that <code>.Permalink</code> and so on refer only to the page (in this case) currently being iterated over. <a href="http://gohugo.io/templates/go-templates/">Read the Go template primer</a> from the Hugo docs or <a href="https://golang.org/pkg/html/template/">read the Go docs</a> for more details.</p>
+
+<p>Let&rsquo;s do something similar with <code>layouts/index.html</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{ partial &quot;header.html&quot; . }}
+<span class="nt">&lt;ul&gt;</span>
+{{ range $section, $pages := .Site.Sections }}
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;{{ $.Site.BaseURL }}{{ $section }}&quot;</span><span class="nt">&gt;</span>{{ title $section }}<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+{{ end }}
+<span class="nt">&lt;/ul&gt;</span>
+{{ partial &quot;footer.html&quot; . }}
+</code></pre></div>
+
+<p>The <code>range</code> function is used again here, this time with variables specified, instead of just assuming context. <code>.Site.Sections</code> is a Go map, so it will be iterated over in key/value pairs, with <code>$section</code> receiving the key. In this case, that will be the section directory name.</p>
+
+<h2 id="conclusion:2bcf957f474d110ed2b81035ac8c13d1">Conclusion</h2>
+
+<p>The site should be in a usable state at this point. Edit the style sheet, add content, and continue to edit and add layout components, using partials as needed. And, of course, <a href="http://gohugo.io/overview/introduction/">explore the Hugo docs</a>.</p>
+
+    </article>
+</section>
+
+</div> 
+<div class="footer">
+  <p class="fine-print">Generated Monday, February 8, 2016 at 9:11 pm EST.</p>
+  <p class="fine-print">Copyright 2015 Jonathan Bowman. All documentation and code contained on this page may be freely shared in compliance with <a href="http://www.apache.org/licenses/LICENSE-2.0">the Apache License, Version 2.0</a>, and is <strong>provided &ldquo;AS IS&rdquo; without warranties or conditions of any kind</strong>.</p>
+</div>
+</div> 
+<script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+
