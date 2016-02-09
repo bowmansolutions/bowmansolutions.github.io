@@ -2,33 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://bowmansolutions.com/</loc>
     <lastmod>2016-01-22T06:21:21-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/contact/</loc>
+    <loc>https://bowmansolutions.com/contact/</loc>
     <lastmod>2016-01-22T06:21:21-05:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/software/geeseflypy/</loc>
-    <lastmod>2015-12-05T10:22:18-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/electronics/breadboard_arduino/</loc>
-    <lastmod>2015-12-02T08:07:22-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/web-development/hugo1/</loc>
+    <loc>https://bowmansolutions.com/web-development/hugo1/</loc>
     <lastmod>2015-10-24T06:47:43-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://bowmansolutions.com/about/</loc>
     <lastmod>2015-10-22T15:28:22-04:00</lastmod>
   </url>
   

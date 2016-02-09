@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web-development on Bowman Solutions</title>
-    <link>http://localhost:1313/web-development/</link>
+    <link>https://bowmansolutions.com/web-development/</link>
     <description>Recent content in Web-development on Bowman Solutions</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2015 Jonathan Bowman. All documentation or code contained on this site may be freely shared in compliance with [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0), and is **provided &#34;AS IS&#34; without warranties or conditions of any kind**.</copyright>
     <lastBuildDate>Sat, 24 Oct 2015 06:47:43 -0400</lastBuildDate>
-    <atom:link href="http://localhost:1313/web-development/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://bowmansolutions.com/web-development/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Building a static website from scratch (unthemed) with Hugo</title>
-      <link>http://localhost:1313/web-development/hugo1/</link>
+      <link>https://bowmansolutions.com/web-development/hugo1/</link>
       <pubDate>Sat, 24 Oct 2015 06:47:43 -0400</pubDate>
       
-      <guid>http://localhost:1313/web-development/hugo1/</guid>
+      <guid>https://bowmansolutions.com/web-development/hugo1/</guid>
       <description>
 
 &lt;p&gt;This article shares the experience of creating a new website, with the following goals:&lt;/p&gt;

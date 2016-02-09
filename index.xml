@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bowman Solutions</title>
-    <link>http://localhost:1313/</link>
+    <link>https://bowmansolutions.com/</link>
     <description>Recent content on Bowman Solutions</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2015 Jonathan Bowman. All documentation or code contained on this site may be freely shared in compliance with [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0), and is **provided &#34;AS IS&#34; without warranties or conditions of any kind**.</copyright>
     <lastBuildDate>Fri, 22 Jan 2016 06:21:21 -0500</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://bowmansolutions.com/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Contact us</title>
-      <link>http://localhost:1313/contact/</link>
+      <link>https://bowmansolutions.com/contact/</link>
       <pubDate>Fri, 22 Jan 2016 06:21:21 -0500</pubDate>
       
-      <guid>http://localhost:1313/contact/</guid>
+      <guid>https://bowmansolutions.com/contact/</guid>
       <description>
 
 &lt;p&gt;Please feel free to contact us with requests, questions, or feedback.&lt;/p&gt;
@@ -33,29 +33,11 @@ Landisville, PA 17538&lt;/p&gt;
     </item>
     
     <item>
-      <title>geeseflypy</title>
-      <link>http://localhost:1313/software/geeseflypy/</link>
-      <pubDate>Sat, 05 Dec 2015 10:22:18 -0500</pubDate>
-      
-      <guid>http://localhost:1313/software/geeseflypy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Breadboard Arduino</title>
-      <link>http://localhost:1313/electronics/breadboard_arduino/</link>
-      <pubDate>Wed, 02 Dec 2015 08:07:22 -0500</pubDate>
-      
-      <guid>http://localhost:1313/electronics/breadboard_arduino/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Building a static website from scratch (unthemed) with Hugo</title>
-      <link>http://localhost:1313/web-development/hugo1/</link>
+      <link>https://bowmansolutions.com/web-development/hugo1/</link>
       <pubDate>Sat, 24 Oct 2015 06:47:43 -0400</pubDate>
       
-      <guid>http://localhost:1313/web-development/hugo1/</guid>
+      <guid>https://bowmansolutions.com/web-development/hugo1/</guid>
       <description>
 
 &lt;p&gt;This article shares the experience of creating a new website, with the following goals:&lt;/p&gt;
@@ -288,10 +270,10 @@ Built {{ .Now.Format &amp;quot;Monday, January 2, 2006 at 3:04 pm&amp;quot; }}.
     
     <item>
       <title>about</title>
-      <link>http://localhost:1313/about/</link>
+      <link>https://bowmansolutions.com/about/</link>
       <pubDate>Thu, 22 Oct 2015 15:28:22 -0400</pubDate>
       
-      <guid>http://localhost:1313/about/</guid>
+      <guid>https://bowmansolutions.com/about/</guid>
       <description>
 
 &lt;p&gt;Bowman Solutions is Jonathan Bowman as a programmer, technician, and hobbyist. I hope this site offers resources to a variety of people, including:&lt;/p&gt;
