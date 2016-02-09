@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Electronics on Bowman Solutions</title>
-    <link>http://localhost:1313/electronics/</link>
+    <link>https://bowmansolutions.com/electronics/</link>
     <description>Recent content in Electronics on Bowman Solutions</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2015 Jonathan Bowman. All documentation or code contained on this site may be freely shared in compliance with [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0), and is **provided &#34;AS IS&#34; without warranties or conditions of any kind**.</copyright>
     <lastBuildDate>Wed, 02 Dec 2015 08:07:22 -0500</lastBuildDate>
-    <atom:link href="http://localhost:1313/electronics/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://bowmansolutions.com/electronics/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Breadboard Arduino</title>
-      <link>http://localhost:1313/electronics/breadboard_arduino/</link>
+      <link>https://bowmansolutions.com/electronics/breadboard_arduino/</link>
       <pubDate>Wed, 02 Dec 2015 08:07:22 -0500</pubDate>
       
-      <guid>http://localhost:1313/electronics/breadboard_arduino/</guid>
+      <guid>https://bowmansolutions.com/electronics/breadboard_arduino/</guid>
       <description></description>
     </item>
     
